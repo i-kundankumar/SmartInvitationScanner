@@ -23,8 +23,8 @@
             android:src="@drawable/back"
             android:scaleType="centerCrop"
             android:padding="10dp"
-            android:tint="@color/fab_tint"
-            android:background="@drawable/bg_add"/>
+            android:background="@drawable/bg_add"
+            app:tint="@color/fab_tint" />
 
         <TextView
             android:id="@+id/tvTitle"
