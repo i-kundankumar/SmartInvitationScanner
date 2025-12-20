@@ -10,7 +10,6 @@ public class NavigationUtils {
 
         from.startActivity(intent);
 
-        from.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         if (finishCurrent) from.finish();
     }
 }

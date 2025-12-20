@@ -1,6 +1,8 @@
 package com.orbitex.sis;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.widget.ImageButton;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,6 +28,7 @@ public class CreateEventActivity extends AppCompatActivity {
     private TextInputEditText etEventDate;
     private LocalDate selectedDate;
     private LocalTime selectedTime;
+    private ImageButton btnBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +41,11 @@ public class CreateEventActivity extends AppCompatActivity {
             return insets;
         });
         etEventDate = findViewById(R.id.et_event_date);
+        btnBack = findViewById(R.id.btnBack);
         etEventDate.setOnClickListener(v -> showDatePicker());
+        btnBack.setOnClickListener(v -> {
+            NavigationUtils.go(CreateEventActivity.this, MainActivity.class, true);
+        });
     }
     private void showDatePicker() {
         MaterialDatePicker<Long> datePicker =
@@ -48,9 +55,17 @@ public class CreateEventActivity extends AppCompatActivity {
                         .build();
 
         datePicker.addOnPositiveButtonClickListener(selection -> {
-            Instant instant = Instant.ofEpochMilli(selection);
-            ZoneId zoneId = ZoneId.systemDefault();
-            selectedDate = instant.atZone(zoneId).toLocalDate();
+            Instant instant = null;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                instant = Instant.ofEpochMilli(selection);
+            }
+            ZoneId zoneId = null;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                zoneId = ZoneId.systemDefault();
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                selectedDate = instant.atZone(zoneId).toLocalDate();
+            }
 
             showTimePicker();
         });
@@ -68,12 +83,20 @@ public class CreateEventActivity extends AppCompatActivity {
                         .build();
 
         timePicker.addOnPositiveButtonClickListener(v -> {
-            selectedTime = LocalTime.of(timePicker.getHour(), timePicker.getMinute());
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                selectedTime = LocalTime.of(timePicker.getHour(), timePicker.getMinute());
+            }
 
-            LocalDateTime dateTime = LocalDateTime.of(selectedDate, selectedTime);
+            LocalDateTime dateTime = null;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                dateTime = LocalDateTime.of(selectedDate, selectedTime);
+            }
 
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy, hh:mm a");
-            etEventDate.setText(dateTime.format(formatter));
+            DateTimeFormatter formatter = null;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                formatter = DateTimeFormatter.ofPattern("dd MMM yyyy, hh:mm a");
+                etEventDate.setText(dateTime.format(formatter));
+            }
         });
 
         timePicker.show(getSupportFragmentManager(), "TIME_PICKER");

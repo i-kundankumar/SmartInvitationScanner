@@ -1,114 +1,302 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     tools:context=".CreateEventActivity">
 
-    <!-- Top Bar -->
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/topBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        android:gravity="center_vertical"
+        android:layout_height="?attr/actionBarSize"
+        android:elevation="4dp"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
             android:id="@+id/btnBack"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:src="@drawable/back"
-            android:scaleType="centerCrop"
-            android:padding="10dp"
+            android:layout_marginStart="8dp"
             android:background="@drawable/bg_add"
+            android:contentDescription="Back"
+            android:padding="12dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:tint="@color/fab_tint" />
 
         <TextView
             android:id="@+id/tvTitle"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Create event"
+            android:text="Create Event"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:gravity="center"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <View
             android:layout_width="48dp"
-            android:layout_height="48dp"/>
-    </LinearLayout>
+            android:layout_height="48dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.cardview.widget.CardView
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:elevation="4dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:cardCornerRadius="15dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:paddingBottom="88dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/topBar">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_margin="10dp">
+            android:padding="16dp">
 
-            <com.google.android.material.textfield.TextInputLayout
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_marginBottom="24dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/imgCover"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?attr/colorSurfaceVariant"
+                    android:scaleType="centerCrop"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/btnChangeCover"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:padding="8dp"
+                        android:src="@android:drawable/ic_menu_camera"
+                        app:tint="@color/fab_tint" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Add Cover Photo"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </FrameLayout>
+
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Event Title"
-                android:background="@null">
-                <com.google.android.material.textfield.TextInputEditText
+                android:layout_marginHorizontal="2dp"
+                android:layout_marginBottom="8dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp">
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@null"/>
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Organizer Name"
-                android:layout_marginTop="10dp">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/til_title"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Event Title">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Date &amp; Time"
-                android:layout_marginTop="10dp"
-                style="@style/ThemeOverlay.Material3.MaterialTimePicker">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_event_date"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:focusable="false"
-                    android:cursorVisible="false"
-                    android:clickable="true"
-                    android:inputType="none"/>
-            </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/et_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textCapWords" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/til_organizer"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:hint="Organizer Name">
 
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/et_organizer"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="12dp"
+                            android:inputType="textPersonName"
+                            tools:drawableStart="@android:drawable/ic_menu_my_calendar"/>
+                        <!--android:drawableStart="@drawable/ic_person_outline_24dp"-->
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/til_event_type"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:hint="Type of Event">
+
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                            android:id="@+id/et_event_type"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="none"
+                            android:paddingStart="16dp"
+                            android:text="Conference"
+                            tools:ignore="RtlSymmetry" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/til_event_date"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:hint="Date &amp; Time">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/et_event_date"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="true"
+                            android:cursorVisible="false"
+                            android:drawablePadding="12dp"
+                            android:focusable="false"
+                            android:inputType="none"
+                            tools:drawableStart="@android:drawable/ic_menu_today" />
+<!--                        android:drawableStart="@drawable/ic_calendar_today_24dp"-->
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/til_location"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:hint="Location / Venue">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/et_location"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+
+                            android:drawablePadding="12dp"
+                            android:inputType="textPostalAddress"
+                            tools:drawableStart="@android:drawable/ic_menu_mapmode" />
+<!--                        android:drawableStart="@drawable/ic_place_24dp"-->
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Event Type"
+                            android:textSize="16sp" />
+
+                        <com.google.android.material.chip.ChipGroup
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:selectionRequired="true"
+                            app:singleSelection="true">
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chip_free"
+                                style="@style/Widget.MaterialComponents.Chip.Choice"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="true"
+                                android:text="Free" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chip_paid"
+                                style="@style/Widget.MaterialComponents.Chip.Choice"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Paid" />
+                        </com.google.android.material.chip.ChipGroup>
+                    </LinearLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/til_price"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:hint="Price"
+                        android:visibility="gone"
+                        app:prefixText="$">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/et_price"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/til_description"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:hint="Description">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/et_description"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="top"
+                            android:inputType="textMultiLine"
+                            android:minLines="3" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
+    </androidx.core.widget.NestedScrollView>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnContinue"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_margin="16dp"
+        android:elevation="4dp"
         android:text="SAVE &amp; CONTINUE"
-        android:textColor="@color/fab_tint"
+        android:textSize="16sp"
         android:backgroundTint="@color/fab_color"
         android:textStyle="bold"
-        android:textSize="16sp"
-        android:elevation="4dp"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:cornerRadius="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
