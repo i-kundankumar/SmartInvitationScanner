@@ -1,64 +1,67 @@
 # 📱 Smart Invitation Scanner
+![License](https://img.shields.io/badge/License-MIT-yellow.svg)
 
-Smart Invitation Scanner is a modern Android application that helps event organizers create events, generate digital invitations with QR codes, and manage guest entry by scanning and verifying invitations in real time. The app is built with Firebase and Material Design, focusing on performance, security, and a clean user experience.
+> 🚧 **Status:** This project is currently under active development.  
+> Features, UI, and architecture may change as new functionality is added.
+
+Smart Invitation Scanner is a modern Android application for creating events, managing digital invitations, and validating guest entry using QR code scanning. It helps organizers handle events efficiently with a clean Material UI and a Firebase-powered backend.
 
 ---
 
-## 🚀 Features
+## ✨ Features
 
 ### 🔐 Authentication
-- Email & Password signup/login using Firebase Auth  
-- Email verification before access  
-- Secure logout  
-- Input validation & error handling  
+- Email & password signup/login (Firebase Auth)
+- Email verification
+- Secure logout
+- Input validation
 
-### 👤 Profile Management
-- Fetch and display user profile from Firestore  
-- Read-only profile view with edit mode  
-- Update profile info (name, phone, avatar ready)  
-- Sign out from profile screen  
+### 👤 Profile
+- Fetch & display profile from Firestore
+- Read-only profile view with edit mode
+- Update name & phone
+- Sign out from profile
 
 ### 🧭 Navigation
-- Bottom navigation with multiple fragments  
-- Floating Action Button for quick actions (scanner)  
-- Smooth fragment switching  
+- Bottom navigation with fragments
+- Center Floating Action Button
+- Smooth transitions
 
 ### 📅 Event Creation
-- Modern "Create Event" UI with Material Components  
-- Cover photo picker (UI ready)  
-- Event title, organizer, type, date & time, location, pricing, and description  
-- Material DatePicker & TimePicker integration  
-- Saves event date as Firestore `Timestamp`  
+- Modern “Create Event” screen
+- Cover image UI
+- Event title, organizer, type, date & time, location, pricing, description
+- Material DatePicker & TimePicker
+- Save events to Firestore as Timestamp
 
-### 📷 QR Scanner (Planned)
-- Scan QR codes at entry gate  
-- Validate invitations against Firestore  
-- Prevent duplicate entries  
-- Track guest check-ins in real time  
+### 📷 QR Scanner *(Planned)*
+- Scan QR codes at entry
+- Verify guests in Firestore
+- Prevent duplicate entries
+- Track check-ins
 
-### 🌙 Theming
-- Light & Dark mode support  
-- Adaptive colors using Material theming  
+### 🌗 UI & Theme
+- Material Components design
+- Light & Dark mode support
+- Responsive layouts
 
 ---
 
 ## 🛠 Tech Stack
 
-- **Language:** Java  
-- **UI:** AndroidX, Material Components (Material 3 styling)  
-- **Architecture:** Activity + Fragments  
-- **Backend:** Firebase  
-  - Firebase Authentication  
-  - Cloud Firestore  
-  - (Planned) Firebase Storage  
-  - (Planned) Cloud Functions  
-- **Design:** ConstraintLayout, MaterialCardView, TextInputLayout  
-- **Tools:** Android Studio, Git, GitHub  
+- **Language:** Java
+- **UI:** AndroidX, Material Components
+- **Backend:** Firebase
+    - Authentication
+    - Cloud Firestore
+- **Architecture:** Activities + Fragments
+- **Tools:** Android Studio, Git, GitHub
 
 ---
 
 ## 📂 Project Structure
 
+```agsl
 app/
 ├── activities/
 │ ├── LoginActivity.java
@@ -75,20 +78,21 @@ app/
 │ └── Event.java
 └── utils/
 └── NavigationUtils.java
-
+```
 
 ---
 
 ## 🔑 Firebase Setup
 
-1. Create a project at **Firebase Console**.
-2. Add Android app with your package name.
-3. Download `google-services.json` → place in `app/`.
+1. Create a project in **Firebase Console**.
+2. Add an Android app with your package name.
+3. Download `google-services.json` → place it in `app/`.
 4. Enable:
-   - Authentication → Email/Password
-   - Cloud Firestore
+    - **Authentication → Email/Password**
+    - **Cloud Firestore**
 
 ### Example Firestore Rules
+
 ```js
 match /users/{uid} {
   allow read, write: if request.auth != null && request.auth.uid == uid;
@@ -98,66 +102,54 @@ match /events/{eventId} {
   allow read, write: if request.auth != null;
 }
 ```
+## ▶️ Getting Started
+### Prerequisites
+- Android Studio
+- Android SDK 24+
+- Java 8+
 
-### ▶️ Getting Started
-Prerequisites
-
-Android Studio
-
-Android SDK 24+
-
-Java 8+
-
-Steps
+### Clone & Run
+```
 git clone https://github.com/your-username/smart-invitation-scanner.git
 cd smart-invitation-scanner
+```
 
 
-Open in Android Studio, sync Gradle, connect Firebase, and run on emulator/device.
+Open in Android Studio, sync Gradle, connect Firebase, and run on a device/emulator.
 
-### 🧪 Build & Run
+## 🧪 Build
 
-Run from Android Studio ▶️
+- Run from Android Studio ▶️
+- Min SDK: 24
+- Target SDK: Latest stable
 
-Min SDK: 24
+## 🗺 Roadmap
 
-Target SDK: Latest stable
+- QR code generation for invitations
+- QR scanner implementation
+- Guest list & check-in tracking
+- Firebase Storage for images
+- Cloud Functions for bulk invites
+- Push notifications (FCM)
+- Admin analytics dashboard
+- Role-based access (organizer/staff)
 
-### 🗺 Roadmap
-
- QR code generation for invitations
-
- QR scanner implementation
-
- Guest list & check-in tracking
-
- Firebase Storage for images
-
- Cloud Functions for bulk invites
-
- Push notifications (FCM)
-
- Admin analytics
-
-### 🤝 Contributing
+## 🤝 Contributing
 
 Contributions are welcome!
 
-Fork the repo
+1. Fork the repo
+2. Create a branch (feature/your-feature)
+3. Commit your changes
+4. Open a Pull Request
 
-Create your branch (feature/my-feature)
-
-Commit changes
-
-Open a Pull Request
-
-### 📝 License
+## 📝 License
 
 This project is licensed under the MIT License.
+See the LICENSE
+file for details.
 
-### 👨‍💻 Author
+## 👨‍💻 Author
 
 Kundan Kumar
 GitHub: https://github.com/i-kundankumar
-
-⭐ If you find this project useful, please give it a star!
