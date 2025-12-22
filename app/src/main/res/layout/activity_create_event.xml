@@ -145,8 +145,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:drawablePadding="12dp"
-                            android:inputType="textPersonName"
-                            tools:drawableStart="@android:drawable/ic_menu_my_calendar"/>
+                            android:inputType="textPersonName"/>
+<!--                            tools:drawableStart="@android:drawable/ic_menu_my_calendar"-->
                         <!--android:drawableStart="@drawable/ic_person_outline_24dp"-->
                     </com.google.android.material.textfield.TextInputLayout>
 
