@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">SmartInvitationScanner</string>
+    <string name="event_cover_image">Event cover image</string>
+    <string name="location_icon">Location icon</string>
 </resources>
