@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -16,7 +17,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
@@ -54,6 +54,7 @@ public class CreateEventActivity extends AppCompatActivity {
 
     private Chip chipFree, chipPaid;
     private MaterialButton btnContinue;
+    private TextView coverTxt;
 
     private LocalDate selectedDate;
     private LocalTime selectedTime;
@@ -161,6 +162,7 @@ public class CreateEventActivity extends AppCompatActivity {
                     if (uri != null) {
                         coverImageUri = uri;
                         imgCover.setImageURI(uri);
+                        coverTxt.setVisibility(View.GONE);
                     }
                 }
         );
@@ -170,6 +172,7 @@ public class CreateEventActivity extends AppCompatActivity {
         btnBack = findViewById(R.id.btnBack);
         imgCover = findViewById(R.id.imgCover);
         btnChangeCover = findViewById(R.id.btnChangeCover);
+        coverTxt = findViewById(R.id.coverText);
 
         etTitle = findViewById(R.id.et_title);
         etOrganizer = findViewById(R.id.et_organizer);

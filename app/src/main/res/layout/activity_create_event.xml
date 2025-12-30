@@ -95,6 +95,7 @@
                         app:tint="@color/fab_tint" />
 
                     <TextView
+                        android:id="@+id/coverText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
