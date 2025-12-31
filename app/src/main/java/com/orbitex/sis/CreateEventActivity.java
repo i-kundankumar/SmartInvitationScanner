@@ -31,6 +31,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -40,6 +42,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class CreateEventActivity extends AppCompatActivity {
 
@@ -62,6 +65,7 @@ public class CreateEventActivity extends AppCompatActivity {
 
     private FirebaseAuth auth;
     private FirebaseFirestore db;
+    private FirebaseStorage storage; // <-- ADD THIS
 
     private ActivityResultLauncher<String> imagePickerLauncher;
 
@@ -78,6 +82,7 @@ public class CreateEventActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+        storage = FirebaseStorage.getInstance(); // <-- INITIALIZE THIS
 
         initViews();
         setupImagePicker();
@@ -129,6 +134,39 @@ public class CreateEventActivity extends AppCompatActivity {
         FirebaseUser user = auth.getCurrentUser();
         if (user == null) return;
 
+        btnContinue.setEnabled(false);
+        btnContinue.setText("Saving...");
+
+        // If a cover image was selected, upload it first
+        if (coverImageUri != null) {
+            uploadImageAndSaveEvent(title, organizer, type, dateTime, location, description, isPaid, price, user.getUid());
+        } else {
+            // Otherwise, save the event without an image URL
+            saveEventToFirestore(title, organizer, type, dateTime, location, description, isPaid, price, user.getUid(), null);
+        }
+    }
+
+    private void uploadImageAndSaveEvent(String title, String organizer, String type, String dateTime, String location, String description, boolean isPaid, String price, String userId) {
+        // Create a unique path for the image in Firebase Storage
+        String imagePath = "event_covers/" + UUID.randomUUID().toString() + ".jpg";
+        StorageReference storageRef = storage.getReference().child(imagePath);
+
+        storageRef.putFile(coverImageUri)
+                .addOnSuccessListener(taskSnapshot -> {
+                    // Once uploaded, get the public download URL
+                    storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                        String imageUrl = uri.toString();
+                        // Now save all data, including the image URL, to Firestore
+                        saveEventToFirestore(title, organizer, type, dateTime, location, description, isPaid, price, userId, imageUrl);
+                    }).addOnFailureListener(e -> {
+                        // Failed to get download URL
+                        handleFailure(e);
+                    });
+                })
+                .addOnFailureListener(this::handleFailure);
+    }
+
+    private void saveEventToFirestore(String title, String organizer, String type, String dateTime, String location, String description, boolean isPaid, String price, String userId, String imageUrl) {
         Map<String, Object> event = new HashMap<>();
         event.put("title", title);
         event.put("organizer", organizer);
@@ -138,10 +176,13 @@ public class CreateEventActivity extends AppCompatActivity {
         event.put("description", description);
         event.put("isPaid", isPaid);
         event.put("price", isPaid ? price : "0");
-        event.put("userId", user.getUid());
+        event.put("userId", userId);
         event.put("createdAt", FieldValue.serverTimestamp());
 
-        btnContinue.setEnabled(false);
+        // Add the cover image URL to the map if it exists
+        if (imageUrl != null) {
+            event.put("coverImageUrl", imageUrl);
+        }
 
         db.collection("events")
                 .add(event)
@@ -149,11 +190,15 @@ public class CreateEventActivity extends AppCompatActivity {
                     Toast.makeText(this, "Event created successfully", Toast.LENGTH_SHORT).show();
                     finish();
                 })
-                .addOnFailureListener(e -> {
-                    btnContinue.setEnabled(true);
-                    Toast.makeText(this, "Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                });
+                .addOnFailureListener(this::handleFailure);
     }
+
+    private void handleFailure(Exception e) {
+        btnContinue.setEnabled(true);
+        btnContinue.setText("Continue");
+        Toast.makeText(this, "Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+    }
+
 
     private void setupImagePicker() {
         imagePickerLauncher = registerForActivityResult(
