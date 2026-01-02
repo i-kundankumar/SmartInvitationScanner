@@ -7,7 +7,7 @@ public class Event {
     private String organizer;
     private String dateTime;
     private String location;
-    private String coverUrl;
+    private String coverImageUrl;
     private boolean isPaid;
     private String price;
 
@@ -21,7 +21,7 @@ public class Event {
     public String getOrganizer() { return organizer; }
     public String getDateTime() { return dateTime; }
     public String getLocation() { return location; }
-    public String getCoverUrl() { return coverUrl; }
+    public String getCoverImageUrl() { return coverImageUrl; }
     public boolean isPaid() { return isPaid; }
     public String getPrice() { return price; }
 }

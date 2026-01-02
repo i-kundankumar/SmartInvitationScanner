@@ -19,6 +19,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Material3.DayNight.NoActionBar">
+        <meta-data
+            android:name="CLOUDINARY_URL"
+            android:value="cloudinary://764567812234679:uj7A0t5jU5AuUDl3Y8KGs6L8QMg@djacophq7"/>
         <activity
             android:name=".CreateEventActivity"
             android:exported="false" />

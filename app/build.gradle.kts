@@ -47,7 +47,6 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.play.services.mlkit.text.recognition.common)
     implementation(libs.firebase.firestore)
-    implementation(libs.firebase.storage)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -79,4 +78,6 @@ dependencies {
     // (Optional) Lifecycle & ViewModel for clean architecture
     implementation("androidx.lifecycle:lifecycle-viewmodel:2.10.0")
     implementation("androidx.lifecycle:lifecycle-livedata:2.10.0")
+    // Cloudinary add on for storage
+    implementation("com.cloudinary:cloudinary-android:3.1.2")
 }

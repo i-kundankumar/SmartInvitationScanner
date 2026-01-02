@@ -18,6 +18,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.cloudinary.android.MediaManager;
+import com.cloudinary.android.callback.ErrorInfo;
+import com.cloudinary.android.callback.UploadCallback;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.datepicker.MaterialDatePicker;
@@ -31,8 +34,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -65,7 +66,6 @@ public class CreateEventActivity extends AppCompatActivity {
 
     private FirebaseAuth auth;
     private FirebaseFirestore db;
-    private FirebaseStorage storage; // <-- ADD THIS
 
     private ActivityResultLauncher<String> imagePickerLauncher;
 
@@ -82,7 +82,6 @@ public class CreateEventActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-        storage = FirebaseStorage.getInstance(); // <-- INITIALIZE THIS
 
         initViews();
         setupImagePicker();
@@ -146,25 +145,42 @@ public class CreateEventActivity extends AppCompatActivity {
         }
     }
 
-    private void uploadImageAndSaveEvent(String title, String organizer, String type, String dateTime, String location, String description, boolean isPaid, String price, String userId) {
-        // Create a unique path for the image in Firebase Storage
-        String imagePath = "event_covers/" + UUID.randomUUID().toString() + ".jpg";
-        StorageReference storageRef = storage.getReference().child(imagePath);
+    private void uploadImageAndSaveEvent(String title, String organizer, String type,
+                                         String dateTime, String location, String description,
+                                         boolean isPaid, String price, String uid) {
 
-        storageRef.putFile(coverImageUri)
-                .addOnSuccessListener(taskSnapshot -> {
-                    // Once uploaded, get the public download URL
-                    storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                        String imageUrl = uri.toString();
-                        // Now save all data, including the image URL, to Firestore
-                        saveEventToFirestore(title, organizer, type, dateTime, location, description, isPaid, price, userId, imageUrl);
-                    }).addOnFailureListener(e -> {
-                        // Failed to get download URL
-                        handleFailure(e);
-                    });
+        btnContinue.setEnabled(false);
+        btnContinue.setText("Uploading...");
+
+        MediaManager.get().upload(coverImageUri)
+                .option("folder", "event_covers")
+                .option("resource_type", "image")
+                .option("quality", "auto")
+                .option("fetch_format", "auto")
+                .callback(new UploadCallback() {
+                    @Override
+                    public void onSuccess(String requestId, Map resultData) {
+                        String imageUrl = resultData.get("secure_url").toString();
+
+                        saveEventToFirestore(title, organizer, type,
+                                dateTime, location, description, isPaid, price, uid,imageUrl);
+                    }
+
+                    @Override
+                    public void onError(String requestId, ErrorInfo error) {
+                        btnContinue.setEnabled(true);
+                        btnContinue.setText("SAVE & CONTINUE");
+                        Toast.makeText(CreateEventActivity.this,
+                                "Image upload failed", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override public void onStart(String requestId) {}
+                    @Override public void onProgress(String requestId, long bytes, long total) {}
+                    @Override public void onReschedule(String requestId, ErrorInfo error) {}
                 })
-                .addOnFailureListener(this::handleFailure);
+                .dispatch();
     }
+
 
     private void saveEventToFirestore(String title, String organizer, String type, String dateTime, String location, String description, boolean isPaid, String price, String userId, String imageUrl) {
         Map<String, Object> event = new HashMap<>();

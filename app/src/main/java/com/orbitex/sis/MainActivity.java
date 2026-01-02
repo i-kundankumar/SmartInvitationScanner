@@ -1,5 +1,6 @@
 package com.orbitex.sis;
 
+import android.media.MediaCommunicationManager;
 import android.os.Bundle;
 import android.widget.ImageButton;
 
@@ -8,11 +9,15 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.cloudinary.android.MediaManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.orbitex.sis.ui.fragments.DiscoverFragments;
 import com.orbitex.sis.ui.fragments.MyEventsFragment;
 import com.orbitex.sis.ui.fragments.ProfileFragments;
 import com.orbitex.sis.ui.fragments.SettingsFragments;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acitivity_main);
+
+        MediaManager.init(this);
+
 
         bottomNav = findViewById(R.id.bottom_navigation);
         cEvent = findViewById(R.id.fab_center);

@@ -43,9 +43,9 @@ public class MyEventsAdapter extends RecyclerView.Adapter<MyEventsAdapter.EventV
         holder.tvDate.setText(event.getDateTime());
         holder.tvLocation.setText(event.getLocation());
 
-        if (event.getCoverUrl() != null) {
+        if (event.getCoverImageUrl() != null) {
             Glide.with(context)
-                    .load(event.getCoverUrl())
+                    .load(event.getCoverImageUrl())
                     .centerCrop()
                     .into(holder.imgCover);
         }
