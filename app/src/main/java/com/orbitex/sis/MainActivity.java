@@ -36,8 +36,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acitivity_main);
 
-        MediaManager.init(this);
-
 
         bottomNav = findViewById(R.id.bottom_navigation);
         cEvent = findViewById(R.id.fab_center);
