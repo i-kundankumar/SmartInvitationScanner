@@ -10,6 +10,9 @@ public class Event {
     private String coverImageUrl;
     private boolean isPaid;
     private String price;
+    private String description;
+
+    // Constructor
 
     public Event() {} // Firestore required
 
@@ -24,5 +27,6 @@ public class Event {
     public String getCoverImageUrl() { return coverImageUrl; }
     public boolean isPaid() { return isPaid; }
     public String getPrice() { return price; }
+    public String getDescription() { return description; }
 }
 

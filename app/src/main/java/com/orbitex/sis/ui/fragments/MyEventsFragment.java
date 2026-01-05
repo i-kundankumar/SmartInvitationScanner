@@ -21,6 +21,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.orbitex.sis.CreateEventActivity;
+import com.orbitex.sis.EventDetailsActivity;
 import com.orbitex.sis.R;
 import com.orbitex.sis.adapters.MyEventsAdapter;
 import com.orbitex.sis.models.Event;
@@ -50,7 +51,11 @@ public class MyEventsFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.recyclerEvents);
         recyclerView.setHasFixedSize(true);
-        adapter = new MyEventsAdapter(requireContext(), events);
+        adapter = new MyEventsAdapter(requireContext(), events, event -> {
+            Intent i = new Intent(requireContext(), EventDetailsActivity.class);
+            i.putExtra("event_id", event.getId());
+            startActivity(i);
+        });
         recyclerView.setAdapter(adapter);
         layoutEmpty = view.findViewById(R.id.layoutEmpty);
         btnCreateEvent = view.findViewById(R.id.btnCreateEvent);

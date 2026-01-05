@@ -19,12 +19,18 @@ import java.util.List;
 
 public class MyEventsAdapter extends RecyclerView.Adapter<MyEventsAdapter.EventVH> {
 
+    public interface OnEventClickListener {
+        void onEventClick(Event event);
+    }
     private final List<Event> events;
     private final Context context;
+    private final OnEventClickListener listener;
 
-    public MyEventsAdapter(Context context, List<Event> events) {
+
+    public MyEventsAdapter(Context context, List<Event> events, OnEventClickListener listener) {
         this.context = context;
         this.events = events;
+        this.listener = listener;
     }
 
     @NonNull
@@ -49,6 +55,8 @@ public class MyEventsAdapter extends RecyclerView.Adapter<MyEventsAdapter.EventV
                     .centerCrop()
                     .into(holder.imgCover);
         }
+
+        holder.itemView.setOnClickListener(v -> listener.onEventClick(event));
     }
 
     @Override
@@ -68,5 +76,10 @@ public class MyEventsAdapter extends RecyclerView.Adapter<MyEventsAdapter.EventV
             tvLocation = itemView.findViewById(R.id.tvLocation);
         }
     }
+
+
+
+
+
 }
 
