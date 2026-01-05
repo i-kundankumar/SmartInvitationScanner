@@ -190,7 +190,7 @@ public class CreateEventActivity extends AppCompatActivity {
         event.put("dateTime", dateTime);
         event.put("location", location);
         event.put("description", description);
-        event.put("isPaid", isPaid);
+        event.put("getIsPaid", isPaid);
         event.put("price", isPaid ? price : "0");
         event.put("userId", userId);
         event.put("createdAt", FieldValue.serverTimestamp());

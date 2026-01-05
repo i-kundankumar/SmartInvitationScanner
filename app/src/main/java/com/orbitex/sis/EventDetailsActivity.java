@@ -64,7 +64,7 @@ public class EventDetailsActivity extends AppCompatActivity {
                     tvOrganizer.setText(event.getOrganizer());
                     tvDescription.setText(event.getDescription());
 
-                    if (event.isPaid()) {
+                    if (event.getIsPaid()) {
                         tvPrice.setText("₹ " + event.getPrice());
                     } else {
                         tvPrice.setText("Free");

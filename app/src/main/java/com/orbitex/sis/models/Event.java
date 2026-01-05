@@ -25,7 +25,7 @@ public class Event {
     public String getDateTime() { return dateTime; }
     public String getLocation() { return location; }
     public String getCoverImageUrl() { return coverImageUrl; }
-    public boolean isPaid() { return isPaid; }
+    public boolean getIsPaid() { return isPaid; }
     public String getPrice() { return price; }
     public String getDescription() { return description; }
 }
